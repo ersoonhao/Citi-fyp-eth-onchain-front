@@ -30,7 +30,7 @@ class App extends Component {
             </li>
             <li className="nav-item">
               <Link to={"/reconciliation"} className="nav-link">
-                RECONCILIATION
+                ETH RECONCILIATION
               </Link>
             </li>
           </div>
