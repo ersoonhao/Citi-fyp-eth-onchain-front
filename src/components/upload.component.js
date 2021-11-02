@@ -3,8 +3,7 @@ import axios from 'axios';
 import React, { Component } from "react";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Button} from 'react-bootstrap';
-import { Dropdown} from 'react-bootstrap';;
-
+import { Dropdown} from 'react-bootstrap';
 export default class Upload extends Component {
     constructor(props) {
         super(props);
@@ -81,50 +80,73 @@ export default class Upload extends Component {
                 parsedData['Sheet1'][i]["StructIndex"] = 0
                 parsedData['Sheet1'][i]["PRICE"] = parseInt(parsedData['Sheet1'][i]["PRICE"])
                 parsedData['Sheet1'][i]["QTY"] = parseInt(parsedData['Sheet1'][i]["QTY"])
-                // axios({
-                //   method: 'post',
-                //   // url: 'http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow',
-                //   url: 'http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/',
-                //   headers: {}, 
-                //   data: {
-                //     SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
-                //     SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
-                //     SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
-                //     SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
-                //     SgxRT: parsedData['Sheet1'][i]["RT"], 
-                //     SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
-                //     SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
-                //   }
-                // }).then(function (response) {
-                //   console.log(response.data)});
+                data = {
+                  SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
+                  SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
+                  SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
+                  SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
+                  SgxRT: parsedData['Sheet1'][i]["RT"], 
+                  SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
+                  SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
+                }
+                console.log(data)
+                axios({
+                  method: 'post',
+                  url: 'http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow',
+                  headers: {}, 
+                  data: {data}
+                }).then(function (response) {
+                  console.log(response.data)});
                 
 
                 // Second way to do axios post
-                  var params = new URLSearchParams();
-                  params.append('SgxStructIndex', 0);
-                  params.append(' SgxQuantity', 100);
-                  params.append(' SgxExecutionDate', "121212");
-                  params.append(' SgxISIN',"G1U27933225");
-                  params.append(' SgxRT',"B");
-                  params.append(' SgxCLINO',"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09");
-                  params.append(' SgxSettlementPrice', 256);
-                  axios.post('http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/', params)
-                  .then((response) => {
-                    console.log(response);
-                  }, (error) => {
-                    console.log(error);
-                  });
+                  // var params = new URLSearchParams();
+                  // params.append('SgxStructIndex', 0);
+                  // params.append(' SgxQuantity', 100);
+                  // params.append(' SgxExecutionDate', "121212");
+                  // params.append(' SgxISIN',"G1U27933225");
+                  // params.append(' SgxRT',"B");
+                  // params.append(' SgxCLINO',"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09");
+                  // params.append(' SgxSettlementPrice', 256);
+                  // axios.post('http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow', params)
+                  // .then((response) => {
+                  //   console.log(response);
+                  // }, (error) => {
+                  //   console.log(error);
+                  // });
                   // .then(function (response) {
                   //     console.log(response.data)}); 
               }
               // if its a primo dataset
               else {
-                parsedData['Sheet1'][i]["StructIndex"] = 1
+                  parsedData['Sheet1'][i]["StructIndex"] = 1
+                  parsedData['Sheet1'][i]["SETTLEMENT_PRICE"] = parseInt(parsedData['Sheet1'][i]["SETTLEMENT_PRICE"])
+                  parsedData['Sheet1'][i]["QUANTITY"] = parseInt(parsedData['Sheet1'][i]["QUANTITY"])
+                  // console.log(parsedData['Sheet1'][i])
+                  parsedData['Sheet1'][i]["EXECUTION_DATE"]= parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(4) + parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(2,4) + parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(0,2)
+                  data = {
+                    PrimoStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
+                    PrimoQuantity: parsedData['Sheet1'][i]["QUANTITY"], 
+                    PrimoExecutionDate: parsedData['Sheet1'][i]["EXECUTION_DATE"], 
+                    PrimoREUT: parsedData['Sheet1'][i]["REUT"], 
+                    PrimoBuySell: parsedData['Sheet1'][i]["BUY_SELL"], 
+                    PrimoAccount: parsedData['Sheet1'][i]["ACCOUNT"], 
+                    PrimoSettlementPrice: parsedData['Sheet1'][i]["SETTLEMENT_PRICE"],
+                    PrimoPrincipal: parsedData['Sheet1'][i]["PRINCIPAL"], 
+                    TRADE_ID: parsedData['Sheet1'][i]["TRADE_ID"] 
+                      }
+                  axios({
+                  method: 'post',
+                  // url: 'http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setPrimoRow',
+                  headers: {}, 
+                  data: {data}
+                  }).then(function (response) {
+                    console.log(response.data)});
               }
               // console.log(parsedData['Sheet1'][i])
-              axios.post(`http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow`, formData)
-              .then(function (response) {
-              console.log(response.data)});
+              // axios.post(`http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow`, formData)
+              // .then(function (response) {
+              // console.log(response.data)});
             }
             });
             // // Request made to the backend api

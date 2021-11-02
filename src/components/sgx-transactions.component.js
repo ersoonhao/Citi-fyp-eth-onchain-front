@@ -125,6 +125,7 @@ export default class SgxTransactions extends Component {
                 <th class="col">RT</th>
                 <th class="col">ClINO</th>
                 <th class="col">Settlement Price</th>
+                <th class="col">Corresponding PrimoID</th>
                 </tr>
             </thead>
             <tbody>
@@ -148,6 +149,7 @@ export default class SgxTransactions extends Component {
                             <td class="col">{transaction.Record.RT}</td>
                             <td class="col">{transaction.Record.CLINO.substring(0,8) + "..."}</td>
                             <td class="col">{transaction.Record.Settlement_price}</td>
+                            <td class="col">{transaction.Record.PrimoTradeID}</td>
                         </tr> 
                     ))} 
             </tbody>
