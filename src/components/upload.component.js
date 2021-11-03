@@ -67,7 +67,7 @@ export default class Upload extends Component {
               this.state.selectedFile.name
             );
             // Details of the uploaded file
-            console.log(this.state.selectedFile);
+            // console.log(this.state.selectedFile);
             console.log(`this is the input ${this.state.dropDownValue.toLowerCase()}`)
             // console.log(formData)
             xlsxParser.onFileSelection(this.state.selectedFile).then(data => {
@@ -80,26 +80,63 @@ export default class Upload extends Component {
                 parsedData['Sheet1'][i]["StructIndex"] = 0
                 parsedData['Sheet1'][i]["PRICE"] = parseInt(parsedData['Sheet1'][i]["PRICE"])
                 parsedData['Sheet1'][i]["QTY"] = parseInt(parsedData['Sheet1'][i]["QTY"])
-                data = {
-                  SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
-                  SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
-                  SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
-                  SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
-                  SgxRT: parsedData['Sheet1'][i]["RT"], 
-                  SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
-                  SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
-                }
-                console.log(data)
-                axios({
-                  method: 'post',
-                  url: 'http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow',
-                  headers: {}, 
-                  data: {data}
-                }).then(function (response) {
-                  console.log(response.data)});
-                
 
-                // Second way to do axios post
+                // using method 1 to test setSgxRow and async
+                // data = {
+                //   SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
+                //   SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
+                //   SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
+                //   SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
+                //   SgxRT: parsedData['Sheet1'][i]["RT"], 
+                //   SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
+                //   SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"],
+                //   SgxSettlement: 2 
+                // }
+                // axios({
+                //   method: 'post',
+                //   url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/setSgxRow',
+                //   headers: {}, 
+                //   data: {data}
+                // }).then(function (response) {
+                //   console.log(response.data)});
+
+
+                  data = {
+                    SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
+                    SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
+                    SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
+                    SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
+                    SgxRT: parsedData['Sheet1'][i]["RT"], 
+                    SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
+                    SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
+                  }
+                  axios({
+                    method: 'post',
+                    // url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/testasync',
+                    url: 'http://52.220.82.196/setSgxRow',
+                    headers: {}, 
+                    data: {data}
+                  }).then(function (response) {
+                    console.log(response.data)});
+
+                    // data = {
+                    //   SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
+                    //   SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
+                    //   SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
+                    //   SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
+                    //   SgxRT: parsedData['Sheet1'][i]["RT"], 
+                    //   SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
+                    //   SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
+                    // }
+                    // axios({
+                    //   method: 'get',
+                    //   url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/',
+                    //   headers: {}, 
+                    //   data: {data}
+                    // }).then(function (response) {
+                    //   console.log(response.data)});
+
+                // Using method 2 to test setSgxRow and testasync
                   // var params = new URLSearchParams();
                   // params.append('SgxStructIndex', 0);
                   // params.append(' SgxQuantity', 100);
@@ -108,14 +145,27 @@ export default class Upload extends Component {
                   // params.append(' SgxRT',"B");
                   // params.append(' SgxCLINO',"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09");
                   // params.append(' SgxSettlementPrice', 256);
-                  // axios.post('http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow', params)
+                  // axios.post('http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/SetsgxRow', params)
+                  // .then((response) => {
+                  //   console.log(response);
+                  // }, (error) => {
+                  //   console.log(error);
+                  // }); 
+
+                  // var params = new URLSearchParams();
+                  // params.append('SgxStructIndex', 0);
+                  // params.append(' SgxQuantity', 100);
+                  // params.append(' SgxExecutionDate', "121212");
+                  // params.append(' SgxISIN',"G1U27933225");
+                  // params.append(' SgxRT',"B");
+                  // params.append(' SgxCLINO',"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09");
+                  // params.append(' SgxSettlementPrice', 256);
+                  // axios.post('http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/testasync', params)
                   // .then((response) => {
                   //   console.log(response);
                   // }, (error) => {
                   //   console.log(error);
                   // });
-                  // .then(function (response) {
-                  //     console.log(response.data)}); 
               }
               // if its a primo dataset
               else {
@@ -124,6 +174,7 @@ export default class Upload extends Component {
                   parsedData['Sheet1'][i]["QUANTITY"] = parseInt(parsedData['Sheet1'][i]["QUANTITY"])
                   // console.log(parsedData['Sheet1'][i])
                   parsedData['Sheet1'][i]["EXECUTION_DATE"]= parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(4) + parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(2,4) + parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(0,2)
+                  // method 1 of sending axios calls
                   data = {
                     PrimoStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
                     PrimoQuantity: parsedData['Sheet1'][i]["QUANTITY"], 
@@ -137,16 +188,14 @@ export default class Upload extends Component {
                       }
                   axios({
                   method: 'post',
-                  // url: 'http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setPrimoRow',
+                  url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/SetPrimoRow',
                   headers: {}, 
                   data: {data}
                   }).then(function (response) {
                     console.log(response.data)});
+                  // method 2 of sending axios calls
+                  
               }
-              // console.log(parsedData['Sheet1'][i])
-              // axios.post(`http://ec2-54-255-81-77.ap-southeast-1.compute.amazonaws.com/setSgxRow`, formData)
-              // .then(function (response) {
-              // console.log(response.data)});
             }
             });
             // // Request made to the backend api
