@@ -110,10 +110,11 @@ export default class Upload extends Component {
                     SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
                     SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
                   }
+                  console.log(data)
                   axios({
                     method: 'post',
                     // url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/testasync',
-                    url: 'http://52.220.82.196/setSgxRow',
+                    url: 'localhost:3000/setSgxRow',
                     headers: {}, 
                     data: {data}
                   }).then(function (response) {
@@ -186,9 +187,10 @@ export default class Upload extends Component {
                     PrimoPrincipal: parsedData['Sheet1'][i]["PRINCIPAL"], 
                     TRADE_ID: parsedData['Sheet1'][i]["TRADE_ID"] 
                       }
+                  console.log(data)
                   axios({
                   method: 'post',
-                  url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/SetPrimoRow',
+                  url: 'localhost:3000/setPrimoRow',
                   headers: {}, 
                   data: {data}
                   }).then(function (response) {
