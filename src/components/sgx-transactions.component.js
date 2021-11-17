@@ -6,38 +6,61 @@ import axios from 'axios';
 var returnData=[];  
 
 
-const sgx_transactions = [
-    {
-        recon_id:1,
-        reconcile_status: "success",
-        quantity: 100,
-        execution_date: "210719",
-        isin: "SG2F48989824",
-        rt: "B",
-        clino:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-        settlement_price:0.265,
-    },
-    {
-      recon_id:3,
-        reconcile_status: "fail",
-        quantity: 80,
-        execution_date: "210719",
-        isin: "SG2F48989824",
-        rt: "B",
-        clino:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-        settlement_price:0.265,
-    },
-    {
-      recon_id:4,
-      reconcile_status: "success",
-      quantity: 100,
-      execution_date: "210719",
-      isin: "SG2F48989824",
-      rt: "B",
-      clino:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-      settlement_price:0.265,
-  }
+const dummy_data = [
+  {
+    0: "0",
+    1: "100",
+    2: "190721",
+    3: "G2F48989824",
+    4: "B",
+    5: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    6: "200",
+    7: true,
+    8: ",,",
+    SgxStructIndex: "0",
+    SgxQuantity: "100",
+    SgxExecutionDate: "190721",
+    SgxISIN: "G2F48989824",
+    SgxRT: "B",
+    SgxCLINO: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    SgxSettlementPrice: "200",
+    reconciled: true,
+    PrimoIds: ",1M001T3KH0,2M001B0OLJ"
+  },
+  {
+    0: "0",
+    1: "100",
+    2: "190721",
+    3: "G2F48989824",
+    4: "B",
+    5: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    6: "200",
+    7: true,
+    8: ",,",
+    SgxStructIndex: "0",
+    SgxQuantity: "100",
+    SgxExecutionDate: "190721",
+    SgxISIN: "G2F48989824",
+    SgxRT: "B",
+    SgxCLINO: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    SgxSettlementPrice: "200",
+    reconciled: true,
+    PrimoIds: ",1M001T3KH0,2M001B0OLJ"
+  },
+  {}
 ]
+
+const sgx_transactions = [];
+
+for (let data of dummy_data) {
+  if (data.SgxStructIndex) {
+    sgx_transactions.push(data)
+  }
+  else {
+    break;
+  }
+}
+
 
 
 export default class SgxTransactions extends Component {
@@ -150,36 +173,45 @@ export default class SgxTransactions extends Component {
                 <tr>
                 <th class="col">ID</th>
                 <th class="col">Status</th>
- 
                 <th class="col">Quantity</th>
                 <th class="col">Execution Date</th>
                 <th class="col">ISIN</th>
                 <th class="col">RT</th>
                 <th class="col">ClINO</th>
                 <th class="col">Settlement Price</th>
-                <th class="col">Corresponding PrimoID</th>
+                {/* <th class="col">Corresponding PrimoID</th> */}
                 </tr>
             </thead>
             <tbody>
-                
-                      <tr class="transaction-row ">
-                       
-                      transaction                            <div>
-                           
-                            {this.transaction.reconciled == 'false' ?  <button type="button" class="btn btn-danger btn-sm" id="status">{transaction.Record.Status}</button> : null}
-                            {this.transaction.reconciled == 'true' ? <button type="button" class="btn btn-success btn-sm" id="status">{transaction.Record.Status}</button> : null}
-                            </div>
-                            <td class="col">{this.transaction.SgxStructIndex}</td>
-                            <td class="col">{this.transaction.reconciled}</td>
-                            <td class="col">{this.transaction.SgxQuantity}</td>
-                            <td class="col">{this.transaction.SgxExecutionDate}</td>
-                            <td class="col">{this.transaction.SgxISIN}</td>
-                            <td class="col">{this.transaction.SgxRT}</td>
-                            <td class="col">{this.transaction.SgxCLINO.substring(0,8) + "..."}</td>
-                            <td class="col">{this.transaction.SgxSettlementPrice}</td>
-                            <td class="col">{this.transaction.PrimoIds}</td>
+                {sgx_transactions && 
+                    sgx_transactions.map((transaction) => (
+                        <tr class="transaction-row ">  
+                            <td class="col">
+                              <Link to={"/transaction/" + transaction.SgxStructIndex} className="link">
+                              {transaction.SgxStructIndex}
+                              </Link>
+                            </td>
+                            {/* <td class="col">{transaction.SgxStructIndex}</td> */}
+
+                            <td><div>
+                            {transaction.reconciled == true ? <button type="button" class="btn btn-success btn-sm" id="status">Success</button> : null}
+                            {transaction.reconciled == false ? <button type="button" class="btn btn-danger btn-sm" id="status">Fail</button> : null}
+                            </div></td>
+                                
+                            <td class="col">{transaction.SgxQuantity}</td>
+                            <td class="col">{transaction.SgxISIN}</td>
+                            <td class="col">{transaction.SgxExecutionDate}</td>
+
+                            {transaction.SgxRT == "B" ? null :<td class="col">Buy</td>}
+                            {transaction.SgxRT == "S" ? null :<td class="col">Sell</td>}
+                            
+                            <td class="col">{transaction.SgxCLINO.substring(0,8) + "..."}</td>
+                            <td class="col">{transaction.SgxSettlementPrice}</td>
+                            
+                            
+                            {/* <td class="col">{transaction.PrimoIds.substring(1)}</td> */}
                         </tr> 
-                    
+                    ))} 
             </tbody>
         </table>
       </div>

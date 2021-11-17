@@ -130,24 +130,23 @@ export default class ReconcileTransactions extends Component {
                 {reconcile_transactions && 
                     reconcile_transactions.map((transaction) => (
                         <tr class="transaction-row ">
-                            {/* {transactionArr = transaction.Record.Recon_ID.split("_")} */}
-                            {/* <th scope="row"><button type="button" class="btn btn-success btn-sm" id="status">Success</button></th> */}
+                            
                             <td><div>
-                            {transaction.reconciled == true ? <button type="button" class="btn btn-success btn-sm" id="status">Successful</button> : null}
+                            {transaction.reconciled == true ? <button type="button" class="btn btn-success btn-sm" id="status">Success</button> : null}
                             {transaction.reconciled == false ? <button type="button" class="btn btn-danger btn-sm" id="status">Fail</button> : null}
                             </div></td>
-                            {/* <td class="col">
-                              <Link to={"/transaction/" + transaction.Record.Block_ID} className="link">
-                              {transaction.Record.Block_ID}
+
+                            <td class="col">
+                              <Link to={"/transaction/" + transaction.SgxStructIndex} className="link">
+                              {transaction.SgxStructIndex}
                               </Link>
-                            </td> */}
-                            <td class="col">{transaction.SgxStructIndex}</td>
+                            </td>
+                            {/* <td class="col">{transaction.SgxStructIndex}</td> */}
                             
                             {transaction.SgxRT == "B" ? null :<td class="col">Buy</td>}
                             {transaction.SgxRT == "S" ? null :<td class="col">Sell</td>}
                             
                             <td class="col">{transaction.SgxCLINO.substring(0,8) + "..."}</td>
-                            {/* <td class="col">{transaction.Record.Recon_ID.split("_")[2].substring(0,8) + "..."}</td> */}
                             <td class="col">{transaction.SgxISIN}</td>
                             <td class="col">{transaction.SgxSettlementPrice}</td>
                             <td class="col">{transaction.SgxQuantity}</td>

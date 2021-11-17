@@ -3,20 +3,24 @@ import TransactionDataService from "../services/transaction.service";
 import { Link } from "react-router-dom";
 
 const reconcile_transaction = {
-    recon_id:1,
-    reconcile_status: "success",
-    quantity: 100,
-    trade_date: "210719",
-    isin: "SG2F48989824",
-    buy_sell: "B",
-    account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-    counter_party: "Q7SGX",
-    settlement_date:"20210722",
-    status:"A",
-    trade_id:"106",
-    price:0.265,
-    net_amount:26.5,
-    price_currency:"SGD"
+    0: "0",
+    1: "100",
+    2: "190721",
+    3: "G2F48989824",
+    4: "B",
+    5: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    6: "200",
+    7: true,
+    8: ",,",
+    SgxStructIndex: "0",
+    SgxQuantity: "100",
+    SgxExecutionDate: "190721",
+    SgxISIN: "G2F48989824",
+    SgxRT: "B",
+    SgxCLINO: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    SgxSettlementPrice: "200",
+    reconciled: true,
+    PrimoIds: ",1M001T3KH0,2M001B0OLJ"
 
 }
 
@@ -160,7 +164,8 @@ export default class Transaction extends Component {
 
     return (
       <div className="list row">
-        <h1>Reconcile ID: {this.props.match.params.id}</h1>
+        {/* <h1>Reconcile ID: {this.props.match.params.id}</h1> */}
+        <h1>Reconcile ID: {reconcile_transaction.SgxStructIndex}</h1>
         <table >
             <thead>
                 <tr>
@@ -169,23 +174,27 @@ export default class Transaction extends Component {
             <tbody>
               <tr>
                     <th scope="row">Account (CLINO):</th>
-                    <td class="col" colspan="3">{transaction.Recon_ID.split("_")[2]}</td>
+                    <td class="col" colspan="3">{reconcile_transaction.SgxCLINO}</td>
                 </tr> 
                 <tr>
                     <th scope="row">Cumulative Quantity:</th>
-                    <td class="col">{transaction.Quantity}</td>
+                    <td class="col">{reconcile_transaction.SgxQuantity}</td>
                     <th scope="row">Reconcile Status:</th>
-                    <td class="col">Successful</td>
+                    <td><div>
+                    {reconcile_transaction.reconciled == true ? <td class="col">Success</td> : null}
+                    {reconcile_transaction.reconciled == false ? <td class="col">Fail</td>: null}
+                    </div></td>
                 </tr> 
                 <tr>
                     <th scope="row">ISIN (REUT):</th>
-                    <td class="col">{transaction.Recon_ID.split("_")[0]}</td>
+                    <td class="col">{reconcile_transaction.SgxISIN}</td>
                     <th scope="row">Buy/Sell (RT):</th>
-                    <td class="col">{transaction.Recon_ID.split("_")[1]}</td>
+                    {reconcile_transaction.SgxRT == "B" ? null :<td class="col">Buy</td>}
+                    {reconcile_transaction.SgxRT == "S" ? null :<td class="col">Sell</td>}
                 </tr> 
                 <tr>
                     <th scope="row">Execution Date:</th>
-                    <td class="col">{transaction.Recon_ID.split("_")[4]}</td>
+                    <td class="col">{reconcile_transaction.SgxExecutionDate}</td>
                     <th scope="row">Counter Party:</th>
                     <td class="col">{transaction.Primo_list.split(',')[0].split('_')[9]}</td>
                 </tr> 
