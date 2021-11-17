@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Button} from 'react-bootstrap';
 import { Dropdown} from 'react-bootstrap';
+import http from "../http-common";
+
 export default class Upload extends Component {
     constructor(props) {
         super(props);
@@ -110,13 +112,23 @@ export default class Upload extends Component {
                     SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
                     SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
                   }
+                  
+                // data = {
+                //     "SgxStructIndex": 0, 
+                //     "SgxQuantity": 100, 
+                //     "SgxExecutionDate": "190721", 
+                //     "SgxISIN": "G2F48989824", 
+                //     "SgxRT": "B", 
+                //     "SgxCLINO": "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09", 
+                //     "SgxSettlementPrice": 200
+                //   }  
                   console.log(data)
                   axios({
                     method: 'post',
                     // url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/testasync',
-                    url: 'localhost:3000/setSgxRow',
+                    url: 'http://localhost:3000/setSgxRow',
                     headers: {}, 
-                    data: {data}
+                    data: data
                   }).then(function (response) {
                     console.log(response.data)});
 
@@ -184,15 +196,17 @@ export default class Upload extends Component {
                     PrimoBuySell: parsedData['Sheet1'][i]["BUY_SELL"], 
                     PrimoAccount: parsedData['Sheet1'][i]["ACCOUNT"], 
                     PrimoSettlementPrice: parsedData['Sheet1'][i]["SETTLEMENT_PRICE"],
-                    PrimoPrincipal: parsedData['Sheet1'][i]["PRINCIPAL"], 
-                    TRADE_ID: parsedData['Sheet1'][i]["TRADE_ID"] 
+                    PrimoPrinciple: parsedData['Sheet1'][i]["PRINCIPAL"], 
+                    PrimoTradeId: parsedData['Sheet1'][i]["TRADE_ID"] 
                       }
-                  console.log(data)
+                  console.log(`Itrations ${i}`,data)
+
+
                   axios({
                   method: 'post',
-                  url: 'localhost:3000/setPrimoRow',
+                  url: 'http://localhost:3000/setPrimoRow',
                   headers: {}, 
-                  data: {data}
+                  data: data
                   }).then(function (response) {
                     console.log(response.data)});
                   // method 2 of sending axios calls
@@ -209,7 +223,7 @@ export default class Upload extends Component {
       };
 
       onReconcile = () => {
-        axios.get('http://3.229.199.112:3002/reconcile_orchestrate').then(
+        axios.get('http://localhost:3000/reconcile').then(
           function(response){
             console.log(response.data)
           }

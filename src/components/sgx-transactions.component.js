@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import TransactionDataService from "../services/transaction.service";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+
+var returnData=[];  
+
 
 const sgx_transactions = [
     {
@@ -44,6 +48,7 @@ export default class SgxTransactions extends Component {
 
     this.state = {
       transactions: [],
+      transaction: {}
     };
   }
 
@@ -60,17 +65,44 @@ export default class SgxTransactions extends Component {
   }
 
   retrieveRecords() {
+
+    //sol 
     // this.setState({transactions: sgx_transactions});
-    TransactionDataService.getAllSgx()
-      .then(response => {
-        this.setState({
-          transactions: response.data
+
+    //AXIOS 
+    var data={
+        index: 0
+    };
+    axios({
+        method: 'post',
+        url: 'http://localhost:3000/getresults',
+        headers: {}, 
+        data: data
+        }).then(function (response) {
+          console.log(response.data)
+          this.setState({
+            transaction:response.data
+          });  
+
+
         });
-        //console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+          
+
+
+    // TransactionDataService.getAllSgx()
+    //   .then(response => {
+    //     this.setState({
+    //       transactions: response.data
+    //     });
+   
+    //   })
+    //   .catch(e => {
+    //     console.log(e);
+    //   });
+
+
+
+    // eol 
   }
 
 
@@ -88,7 +120,7 @@ export default class SgxTransactions extends Component {
   }
 
   render() {
-    const { searchTitle, transactions} = this.state;
+    const { searchTitle, transactions, transaction} = this.state;
 
     return (
       <div className="list row">
@@ -118,7 +150,7 @@ export default class SgxTransactions extends Component {
                 <tr>
                 <th class="col">ID</th>
                 <th class="col">Status</th>
-                <th class="col">Recon ID</th>
+ 
                 <th class="col">Quantity</th>
                 <th class="col">Execution Date</th>
                 <th class="col">ISIN</th>
@@ -129,29 +161,25 @@ export default class SgxTransactions extends Component {
                 </tr>
             </thead>
             <tbody>
-                {transactions && 
-                    transactions.map((transaction) => (
+                
                       <tr class="transaction-row ">
-                            <td class="col">{transaction.Record.ID}</td>
-                            <div>
-                            {transaction.Record.Status == 'pending' ? <button type="button" class="btn btn-warning btn-sm" id="status">{transaction.Record.Status}</button> : null}
-                            {transaction.Record.Status == 'fail' ?  <button type="button" class="btn btn-danger btn-sm" id="status">{transaction.Record.Status}</button> : null}
-                            {transaction.Record.Status == 'success' ? <button type="button" class="btn btn-success btn-sm" id="status">{transaction.Record.Status}</button> : null}
+                       
+                      transaction                            <div>
+                           
+                            {this.transaction.reconciled == 'false' ?  <button type="button" class="btn btn-danger btn-sm" id="status">{transaction.Record.Status}</button> : null}
+                            {this.transaction.reconciled == 'true' ? <button type="button" class="btn btn-success btn-sm" id="status">{transaction.Record.Status}</button> : null}
                             </div>
-                            <td class="col">
-                              <Link to={"/transaction/" + transaction.Record.Block_ID} className="link">
-                              {transaction.Record.Block_ID}
-                              </Link>
-                            </td>
-                            <td class="col">{transaction.Record.Quantity}</td>
-                            <td class="col">{transaction.Record.Execution_date}</td>
-                            <td class="col">{transaction.Record.ISIN}</td>
-                            <td class="col">{transaction.Record.RT}</td>
-                            <td class="col">{transaction.Record.CLINO.substring(0,8) + "..."}</td>
-                            <td class="col">{transaction.Record.Settlement_price}</td>
-                            <td class="col">{transaction.Record.PrimoTradeID}</td>
+                            <td class="col">{this.transaction.SgxStructIndex}</td>
+                            <td class="col">{this.transaction.reconciled}</td>
+                            <td class="col">{this.transaction.SgxQuantity}</td>
+                            <td class="col">{this.transaction.SgxExecutionDate}</td>
+                            <td class="col">{this.transaction.SgxISIN}</td>
+                            <td class="col">{this.transaction.SgxRT}</td>
+                            <td class="col">{this.transaction.SgxCLINO.substring(0,8) + "..."}</td>
+                            <td class="col">{this.transaction.SgxSettlementPrice}</td>
+                            <td class="col">{this.transaction.PrimoIds}</td>
                         </tr> 
-                    ))} 
+                    
             </tbody>
         </table>
       </div>
