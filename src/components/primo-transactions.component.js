@@ -1,144 +1,75 @@
 import React, { Component } from "react";
 import TransactionDataService from "../services/transaction.service";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
-const primo_transactions = [
-    {
-        recon_id:1,
-        reconcile_status: "success",
-        quantity: 20,
-        execution_date: "210719",
-        reut: "SG2F48989824",
-        buy_sell: "B",
-        account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-        counter_party: "Q7SGX",
-        settlement_date:"20210722",
-        status:"A",
-        trade_id:"106",
-        settlement_price:0.265,
-        principle:26.5,
-        price_currency:"SGD"
-
-    },
-    {
-        recon_id:1,
-        reconcile_status: "success",
-        quantity: 20,
-        execution_date: "210719",
-        reut: "SG2F48989824",
-        buy_sell: "B",
-        account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-        counter_party: "Q7SGX",
-        settlement_date:"20210722",
-        status:"A",
-        trade_id:"106",
-        settlement_price:0.265,
-        principle:26.5,
-        price_currency:"SGD"
-
-    },
-    {
-      recon_id:1,
-      reconcile_status: "success",
-      quantity: 20,
-      execution_date: "210719",
-      reut: "SG2F48989824",
-      buy_sell: "B",
-      account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-      counter_party: "Q7SGX",
-      settlement_date:"20210722",
-      status:"A",
-      trade_id:"106",
-      settlement_price:0.265,
-      principle:26.5,
-      price_currency:"SGD"
-
+const dummy_data = [
+  {
+      0: "0",
+      1: "50",
+      2: "210719",
+      3: "G2F48989824",
+      4: "B",
+      5: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+      6: "100",
+      7: "200",
+      8: "1M001T3KH0",
+      PrimoStructIndex: "0",
+      PrimoQuantity: "50",
+      PrimoExecutionDate: "210719",
+      PrimoREUT: "G2F48989824",
+      PrimoBuySell: "B",
+      PrimoAccount: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+      PrimoSettlementPrice: "100",
+      PrimoPrinciple: "200",
+      PrimoTradeId: "1M001T3KH0"
   },
   {
-    recon_id:1,
-    reconcile_status: "success",
-    quantity: 20,
-    execution_date: "210719",
-    reut: "SG2F48989824",
-    buy_sell: "B",
-    account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-    counter_party: "Q7SGX",
-    settlement_date:"20210722",
-    status:"A",
-    trade_id:"106",
-    settlement_price:0.265,
-    principle:26.5,
-    price_currency:"SGD"
-
+    0: "0",
+    1: "50",
+    2: "210719",
+    3: "G2F48989824",
+    4: "B",
+    5: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    6: "100",
+    7: "200",
+    8: "1M001T3KH0",
+    PrimoStructIndex: "0",
+    PrimoQuantity: "50",
+    PrimoExecutionDate: "210719",
+    PrimoREUT: "G2F48989824",
+    PrimoBuySell: "B",
+    PrimoAccount: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    PrimoSettlementPrice: "100",
+    PrimoPrinciple: "200",
+    PrimoTradeId: "1M001T3KH0"
 },
-{
-    recon_id:1,
-    reconcile_status: "success",
-    quantity: 20,
-    execution_date: "210719",
-    reut: "SG2F48989824",
-    buy_sell: "B",
-    account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-    counter_party: "Q7SGX",
-    settlement_date:"20210722",
-    status:"A",
-    trade_id:"106",
-    settlement_price:0.265,
-    principle:26.5,
-    price_currency:"SGD"
-
-},
-{
-  recon_id:2,
-  reconcile_status: "fail",
-  quantity: 60,
-  execution_date: "210719",
-  reut: "SG2F48989824",
-  buy_sell: "B",
-  account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-  counter_party: "Q7SGX",
-  settlement_date:"20210722",
-  status:"A",
-  trade_id:"106",
-  settlement_price:0.265,
-  principle:26.5,
-  price_currency:"SGD"
-
-},
-{
-  recon_id:3,
-  reconcile_status: "success",
-  quantity: 100,
-  execution_date: "210719",
-  reut: "SG2F48989824",
-  buy_sell: "B",
-  account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-  counter_party: "Q7SGX",
-  settlement_date:"20210722",
-  status:"A",
-  trade_id:"106",
-  settlement_price:0.265,
-  principle:26.5,
-  price_currency:"SGD"
-
-}
+  {}
 ]
-
 
 export default class PrimoTransactions extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
     this.searchTitle = this.searchTitle.bind(this);
-    this.retrieveTransactions = this.retrieveTransactions.bind(this);
+    this.retrieveRecords = this.retrieveRecords.bind(this);
 
     this.state = {
       transactions: [],
     };
   }
 
+  addDate() {
+    dummy_data.map((transaction) =>
+      transaction.PrimoStructIndex ? this.setState(previousState => ({
+        transactions: [...previousState.transactions, transaction]})) : null )
+  }
+
   componentDidMount() {
-    this.retrieveTransactions();
+    // this.retrieveTransactions();
+    // this.addDate();
+    // this.retrieveRecords(0);
+    this.createRecordArr();
   }
 
   onChangeSearchTitle(e) {
@@ -149,20 +80,44 @@ export default class PrimoTransactions extends Component {
     });
   }
 
-  retrieveTransactions() {
-    //this.setState({transactions: primo_transactions});
-    TransactionDataService.getAllPrimo()
-      .then(response => {
-        this.setState({
-          transactions: response.data
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  
+  createRecordArr() {
+    for (var i = 0; i < 2; i++) {
+      if (this.stop_retreving){
+        console.log("stop");
+        break;
+      }
+      else{
+        this.retrieveRecords(i);
+        console.log("show existing rows",i);
+        console.log(this.state.stop_retreving)
+      }
+    } 
   }
+
+  retrieveRecords(index) {
+    //AXIOS 
+    var data={
+        index: index
+    };
+    var self = this;
+    axios({
+        method: 'post',
+        url: 'http://localhost:3000/getPrimoRow',
+        headers: {}, 
+        data: data
+        }).then(function (response) {
+          console.log(response.data);
+          var startTime = performance.now();
+          self.setState(state => ({transactions: [...state.transactions, response.data]}));
+          var endTime = performance.now();
+          console.log(`Call one row of transaction took ${endTime - startTime} milliseconds`);
+        })
+        .catch(e => {
+          console.log(e);
+          console.log("nothing found");
+          self.setState(state => ({...state, stop_retreving: !state.stop_retreving}));
+          });
+      }
 
 
   searchTitle() {
@@ -208,50 +163,48 @@ export default class PrimoTransactions extends Component {
             <thead>
                 <tr>
                 <th class="col">ID</th>
-                <th class="col">Status</th>
-                <th class="col">Recon ID</th>
                 <th class="col">Quantity</th>
                 <th class="col">Execution Date</th>
                 <th class="col">REUT</th>
-                <th class="col">Buy / Sell</th>
+                <th class="col">RT</th>
                 <th class="col">Account</th>
-                <th class="col">Counter Party</th>
-                <th class="col">Settlement Date</th>
-                <th class="col">Status</th>
-                <th class="col">Trade_ID</th>
                 <th class="col">Settlement Price</th>
-                <th class="col">Principal</th>
-                <th class="col">Price Currency</th>
+                <th class="col">Principle</th>
+                <th class="col">Trade ID</th>
+                {/* <th class="col">Corresponding PrimoID</th> */}
                 </tr>
             </thead>
             <tbody>
                 {transactions && 
                     transactions.map((transaction) => (
-                        <tr class="transaction-row ">
-                          <td class="col">{transaction.Record.ID}</td>
-                            <div>
-                            {transaction.Record.Status == 'pending' ? <button type="button" class="btn btn-warning btn-sm" id="status">{transaction.Record.Status}</button> : null}
-                            {transaction.Record.Status == 'fail' ?  <button type="button" class="btn btn-danger btn-sm" id="status">{transaction.Record.Status}</button> : null}
-                            {transaction.Record.Status == 'success' ? <button type="button" class="btn btn-success btn-sm" id="status">{transaction.Record.Status}</button> : null}
-                            </div>
-                            <td class="col">
-                              <Link to={"/transaction/" + transaction.Record.Block_ID} className="link">
-                              {transaction.Record.Block_ID}
-                              </Link>
-                            </td>
-                            <td class="col">{transaction.Record.Quantity}</td>
-                            <td class="col">{transaction.Record.Execution_date}</td>
-                            <td class="col">{transaction.Record.ISIN}</td>
-                            <td class="col">{transaction.Record.RT}</td>
-                            <td class="col">{transaction.Record.CLINO.substring(0,8) + "..."}</td>
-                            <td class="col">{transaction.Record.Counterparty}</td>
-                            <td class="col">{transaction.Record.Settlement_Date}</td>
-                            <td class="col">{transaction.Record.Alpha_status}</td>
-                            <td class="col">{transaction.Record.Trade_ID}</td>
-                            <td class="col">{transaction.Record.Settlement_price}</td>
-                            <td class="col">{transaction.Record.Principal}</td>
-                            <td class="col">{transaction.Record.Pricing_Currency}</td>
-                        </tr> 
+                      <tr class="transaction-row ">  
+                        <td class="col">
+                          <Link to={"/transaction/" + transaction.PrimoStructIndex} className="link">
+                          {transaction.PrimoStructIndex}
+                          </Link>
+                        </td>
+                        {/* <td class="col">{transaction.SgxStructIndex}</td> */}
+
+                        {/* <td><div>
+                        {transaction.reconciled === true ? <button type="button" class="btn btn-success btn-sm" id="status">Success</button> : null}
+                        {transaction.reconciled === false ? <button type="button" class="btn btn-danger btn-sm" id="status">Fail</button> : null}
+                        </div></td> */}
+                            
+                        <td class="col">{transaction.PrimoQuantity}</td>
+                        <td class="col">{transaction.PrimoREUT}</td>
+                        <td class="col">{transaction.PrimoExecutionDate}</td>
+
+                        {transaction.PrimoBuySell === "B" ? null :<td class="col">Buy</td>}
+                        {transaction.PrimoBuySell === "S" ? null :<td class="col">Sell</td>}
+                        
+                        <td class="col">{transaction.PrimoAccount.substring(0,8) + "..."}</td>
+                        <td class="col">{transaction.PrimoSettlementPrice}</td>
+                        <td class="col">{transaction.PrimoPrinciple}</td>
+                        <td class="col">{transaction.PrimoTradeId}</td>
+                        
+                        
+                        {/* <td class="col">{transaction.PrimoIds.substring(1)}</td> */}
+                    </tr> 
                     ))} 
             </tbody>
         </table>
