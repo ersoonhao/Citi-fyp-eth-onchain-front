@@ -53,9 +53,11 @@ export default class PrimoTransactions extends Component {
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
     this.searchTitle = this.searchTitle.bind(this);
     this.retrieveRecords = this.retrieveRecords.bind(this);
+    this.createRecordArr = this.createRecordArr.bind(this);
 
     this.state = {
       transactions: [],
+      stop_retreving : false,
     };
   }
 
@@ -80,6 +82,12 @@ export default class PrimoTransactions extends Component {
     });
   }
 
+  // function SendRequests() {
+  //   requestsToSend.forEach((request, index) => { 
+  //     setTimeout(()=> { request.Send(); }, 500 * (index + 1))
+  //   });
+  // }
+  
   createRecordArr() {
     for (var i = 0; i < 2; i++) {
       if (this.stop_retreving){
@@ -87,9 +95,9 @@ export default class PrimoTransactions extends Component {
         break;
       }
       else{
-        this.retrieveRecords(i);
         console.log("show existing rows",i);
-        console.log(this.state.stop_retreving)
+        this.retrieveRecords(i);
+        console.log(this.state.stop_retreving);
       }
     } 
   }

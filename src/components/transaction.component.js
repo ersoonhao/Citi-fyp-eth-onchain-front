@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TransactionDataService from "../services/transaction.service";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const reconcile_transaction = {
     0: "0",
@@ -24,107 +24,6 @@ const reconcile_transaction = {
 
 }
 
-const primo_transaction = {
-  recon_id:1,
-  reconcile_status: "success",
-  transactions: [
-  {
-      primo_id:1,
-      quantity: 20,
-      execution_date: "210719",
-      reut: "SG2F48989824",
-      buy_sell: "B",
-      account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-      counter_party: "Q7SGX",
-      settlement_date:"20210722",
-      status:"A",
-      trade_id:"106",
-      settlement_price:0.265,
-      principle:26.5,
-      price_currency:"SGD"
-
-  },
-  {
-      primo_id:2,
-      quantity: 20,
-      execution_date: "210719",
-      reut: "SG2F48989824",
-      buy_sell: "B",
-      account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-      counter_party: "Q7SGX",
-      settlement_date:"20210722",
-      status:"A",
-      trade_id:"106",
-      settlement_price:0.265,
-      principle:26.5,
-      price_currency:"SGD"
-
-  },
-  {
-    primo_id:3,
-    quantity: 20,
-    execution_date: "210719",
-    reut: "SG2F48989824",
-    buy_sell: "B",
-    account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-    counter_party: "Q7SGX",
-    settlement_date:"20210722",
-    status:"A",
-    trade_id:"106",
-    settlement_price:0.265,
-    principle:26.5,
-    price_currency:"SGD"
-
-  },
-  {
-    primo_id:4,
-    quantity: 20,
-    execution_date: "210719",
-    reut: "SG2F48989824",
-    buy_sell: "B",
-    account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-    counter_party: "Q7SGX",
-    settlement_date:"20210722",
-    status:"A",
-    trade_id:"106",
-    settlement_price:0.265,
-    principle:26.5,
-    price_currency:"SGD"
-
-  },
-  {
-    primo_id:5,
-    quantity: 20,
-    execution_date: "210719",
-    reut: "SG2F48989824",
-    buy_sell: "B",
-    account:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-    counter_party: "Q7SGX",
-    settlement_date:"20210722",
-    status:"A",
-    trade_id:"106",
-    settlement_price:0.265,
-    principle:26.5,
-    price_currency:"SGD"
-
-  }]
-}
-
-const sgx_transaction = {
-  recon_id:1,
-  reconcile_status: "success",
-  transactions:[
-  {
-      recon_id:1,
-      reconcile_status: "success",
-      quantity: 100,
-      execution_date: "210719",
-      isin: "SG2F48989824",
-      rt: "B",
-      clino:"765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
-      settlement_price:0.265,
-  }]
-}
 
 export default class Transaction extends Component {
   constructor(props) {
@@ -181,16 +80,16 @@ export default class Transaction extends Component {
                     <td class="col">{reconcile_transaction.SgxQuantity}</td>
                     <th scope="row">Reconcile Status:</th>
                     <td><div>
-                    {reconcile_transaction.reconciled == true ? <td class="col">Success</td> : null}
-                    {reconcile_transaction.reconciled == false ? <td class="col">Fail</td>: null}
+                    {reconcile_transaction.reconciled === true ? <td class="col">Success</td> : null}
+                    {reconcile_transaction.reconciled === false ? <td class="col">Fail</td>: null}
                     </div></td>
                 </tr> 
                 <tr>
                     <th scope="row">ISIN (REUT):</th>
                     <td class="col">{reconcile_transaction.SgxISIN}</td>
                     <th scope="row">Buy/Sell (RT):</th>
-                    {reconcile_transaction.SgxRT == "B" ? null :<td class="col">Buy</td>}
-                    {reconcile_transaction.SgxRT == "S" ? null :<td class="col">Sell</td>}
+                    {reconcile_transaction.SgxRT === "B" ? null :<td class="col">Buy</td>}
+                    {reconcile_transaction.SgxRT === "S" ? null :<td class="col">Sell</td>}
                 </tr> 
                 <tr>
                     <th scope="row">Execution Date:</th>

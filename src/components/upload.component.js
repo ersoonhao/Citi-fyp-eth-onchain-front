@@ -4,7 +4,8 @@ import React, { Component } from "react";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Button} from 'react-bootstrap';
 import { Dropdown} from 'react-bootstrap';
-import http from "../http-common";
+// import http from "../http-common";
+
 
 export default class Upload extends Component {
     constructor(props) {
@@ -54,11 +55,11 @@ export default class Upload extends Component {
       
         // Update the formData object
         //Form validation for when user doesnt choose any file before clicking upload
-          if (this.state.dropDownValue == "File type") {
+          if (this.state.dropDownValue === "File type") {
             alert("Please select the file type before clicking Upload!")
             console.log(`this is the input ${this.state.dropDownValue.toLowerCase()}`)
           }
-          else if (this.state.selectedFile ==  null) {
+          else if (this.state.selectedFile ===  null) {
             alert("Please choose a file before clicking Upload!")
             console.log(`this is the input ${this.state.dropDownValue.toLowerCase()}`)
           }
@@ -77,7 +78,7 @@ export default class Upload extends Component {
             // console.log(parsedData) 
             for(var i=0; i<parsedData['Sheet1'].length; i++){
               // console.log(this.state.dropDownValue);
-              if (this.state.dropDownValue == "SGX") {
+              if (this.state.dropDownValue === "SGX") {
                 // console.log(parsedData['Sheet1'][i])
                 parsedData['Sheet1'][i]["StructIndex"] = 0
                 parsedData['Sheet1'][i]["PRICE"] = parseInt(parsedData['Sheet1'][i]["PRICE"])
@@ -137,8 +138,18 @@ export default class Upload extends Component {
                     console.log(response.data)});
                   // method 2 of sending axios calls
                   
+                  // setTimeout(function callAPI(){
+                  //   console.log(`Itrations ${i}`,data);
+                  //   axios({
+                  //     method: 'get',
+                  //     url: 'https://api.coindesk.com/v1/bpi/currentprice.json',
+                  //     headers: {}, 
+                  //     }).then(function (response) {
+                  //       console.log(response.data)});
+                  // },(i+1)*10000);
+                  // setTimeout(function(){ console.log("Hello"); }, (i+1)*10000);
+                  
               }
-              setInterval(myTimer, 1000);
             }
             });
           }  

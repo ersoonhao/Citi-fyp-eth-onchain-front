@@ -157,7 +157,7 @@ export default class SgxTransactions extends Component {
   }
 
   render() {
-    const { searchTitle, transactions, transaction} = this.state;
+    const { searchTitle, transactions} = this.state;
 
     return (
       <div className="list row">
