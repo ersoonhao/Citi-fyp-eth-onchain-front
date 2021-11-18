@@ -50,17 +50,6 @@ const dummy_data = [
   {}
 ]
 
-const sgx_transactions = [];
-
-for (let data of dummy_data) {
-  if (data.SgxStructIndex) {
-    sgx_transactions.push(data)
-  }
-  else {
-    break;
-  }
-}
-
 
 
 export default class SgxTransactions extends Component {
@@ -75,8 +64,16 @@ export default class SgxTransactions extends Component {
     };
   }
 
+  addDate() {
+    dummy_data.map((data) =>
+      data.SgxStructIndex ? this.setState(previousState => ({
+        transactions: [...previousState.transactions, data]})) : null )
+    
+  }
+
   componentDidMount() {
     this.retrieveRecords();
+    this.addDate();
   }
 
   onChangeSearchTitle(e) {
@@ -183,8 +180,8 @@ export default class SgxTransactions extends Component {
                 </tr>
             </thead>
             <tbody>
-                {sgx_transactions && 
-                    sgx_transactions.map((transaction) => (
+                {transactions && 
+                    transactions.map((transaction) => (
                         <tr class="transaction-row ">  
                             <td class="col">
                               <Link to={"/transaction/" + transaction.SgxStructIndex} className="link">
