@@ -69,9 +69,9 @@ export default class PrimoTransactions extends Component {
 
   componentDidMount() {
     // this.retrieveTransactions();
-    // this.addDate();
+    this.addDate();
     // this.retrieveRecords(0);
-    this.createRecordArr();
+    // this.createRecordArr();
   }
 
   onChangeSearchTitle(e) {

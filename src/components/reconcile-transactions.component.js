@@ -21,7 +21,47 @@ const dummy_data = [
     SgxRT: "B",
     SgxCLINO: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
     SgxSettlementPrice: "200",
+    reconciled: false,
+    PrimoIds: ",1M001T3KH0,2M001B0OLJ"
+  },
+  {
+    0: "0",
+    1: "100",
+    2: "190721",
+    3: "G2F48989824",
+    4: "B",
+    5: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    6: "200",
+    7: true,
+    8: ",,",
+    SgxStructIndex: "0",
+    SgxQuantity: "100",
+    SgxExecutionDate: "190721",
+    SgxISIN: "G2F48989824",
+    SgxRT: "B",
+    SgxCLINO: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    SgxSettlementPrice: "200",
     reconciled: true,
+    PrimoIds: ",1M001T3KH0,2M001B0OLJ"
+  },
+  {
+    0: "0",
+    1: "100",
+    2: "190721",
+    3: "G2F48989824",
+    4: "B",
+    5: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    6: "200",
+    7: true,
+    8: ",,",
+    SgxStructIndex: "0",
+    SgxQuantity: "100",
+    SgxExecutionDate: "190721",
+    SgxISIN: "G2F48989824",
+    SgxRT: "B",
+    SgxCLINO: "765aa1a943a5aa1d0cae8b5c97b68a17785179e6ef13aaaf1b99b78c2387dd09",
+    SgxSettlementPrice: "200",
+    reconciled: false,
     PrimoIds: ",1M001T3KH0,2M001B0OLJ"
   },
   {
@@ -169,7 +209,7 @@ export default class ReconcileTransactions extends Component {
             <thead>
                 <tr>
                 <th class="col">Status</th>
-                <th class="col">Recon ID</th>
+                <th class="col">SGX ID</th>
                 <th class="col">buy / Sell</th>
                 <th class="col">Client ID</th>
                 <th class="col">ISIN</th>
@@ -207,7 +247,11 @@ export default class ReconcileTransactions extends Component {
                             <td class="col">{transaction.SgxSettlementPrice}</td>
                             
                             
-                            <td class="col">{transaction.PrimoIds.substring(1)}</td> 
+                            <td><div>
+                            {transaction.reconciled === true ? <td class="col">{transaction.PrimoIds.substring(1)}</td> : null}
+                            {transaction.reconciled === false ? <td></td> : null}
+                            </div></td>
+     
                         </tr> 
                     ))} 
             </tbody>
