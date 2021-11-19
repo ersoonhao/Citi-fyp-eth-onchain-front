@@ -89,21 +89,23 @@ export default class Upload extends Component {
 
       delay(parsedData,i) {
         setTimeout(() => {
+          var transaction;
+          var data;
           if (this.state.dropDownValue === "SGX") {
-            console.log(parsedData['Sheet1'][i])
-            console.log(i)
-            parsedData['Sheet1'][i]["StructIndex"] = 0
-            parsedData['Sheet1'][i]["PRICE"] = parseInt(parsedData['Sheet1'][i]["PRICE"])
-            parsedData['Sheet1'][i]["QTY"] = parseInt(parsedData['Sheet1'][i]["QTY"])
+            transaction = parsedData.Sheet1.[i];
+
+            transaction.StructIndex = 0
+            transaction.PRICE = parseInt(transaction.PRICE)
+            transaction.QTY = parseInt(transaction.QTY)
   
-            var data = {
-              SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
-              SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
-              SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
-              SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
-              SgxRT: parsedData['Sheet1'][i]["RT"], 
-              SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
-              SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
+            data = {
+              SgxStructIndex: i, 
+              SgxQuantity: transaction.QTY, 
+              SgxExecutionDate: transaction.TRADE_DATE, 
+              SgxISIN: transaction.ISIN, 
+              SgxRT: transaction.RT, 
+              SgxCLINO: transaction.CLINO, 
+              SgxSettlementPrice: transaction.PRICE
             }
             
             console.log(data)
@@ -124,18 +126,17 @@ export default class Upload extends Component {
           else {
               // console.log(i);
               // console.log(parsedData)
-              var transaction = parsedData.Sheet1.[i];
+              transaction = parsedData.Sheet1.[i];
               console.log(transaction);
               // console.log(parsedData.Sheet1.[0]);
-              console.log(i);
   
               transaction.StructIndex = i;
               transaction.SETTLEMENT_PRICE = parseInt(transaction.SETTLEMENT_PRICE);
-              transaction.QUANTITY = transaction.QUANTITY
+              transaction.QUANTITY = parseInt(transaction.QUANTITY);
               // console.log(parsedData['Sheet1'][i])
               transaction.EXECUTION_DATE = transaction.EXECUTION_DATE.slice(4) + transaction.EXECUTION_DATE.slice(2,4) + transaction.EXECUTION_DATE.slice(0,2)
               // method 1 of sending axios calls
-              var data = {
+              data = {
                 PrimoStructIndex: transaction.StructIndex, 
                 PrimoQuantity: transaction.QUANTITY, 
                 PrimoExecutionDate: transaction.EXECUTION_DATE, 
