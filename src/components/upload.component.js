@@ -7,6 +7,7 @@ import { Dropdown} from 'react-bootstrap';
 // import http from "../http-common";
 
 
+
 export default class Upload extends Component {
     constructor(props) {
         super(props);
@@ -76,85 +77,104 @@ export default class Upload extends Component {
             xlsxParser.onFileSelection(this.state.selectedFile).then(data => {
             var parsedData = data;
             // console.log(parsedData) 
-            for(var i=0; i<parsedData['Sheet1'].length; i++){
+            for(var i=0; i<parsedData['Sheet1'].length-1; i++){
               // console.log(this.state.dropDownValue);
-              if (this.state.dropDownValue === "SGX") {
-                // console.log(parsedData['Sheet1'][i])
-                parsedData['Sheet1'][i]["StructIndex"] = 0
-                parsedData['Sheet1'][i]["PRICE"] = parseInt(parsedData['Sheet1'][i]["PRICE"])
-                parsedData['Sheet1'][i]["QTY"] = parseInt(parsedData['Sheet1'][i]["QTY"])
-
-                data = {
-                  SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
-                  SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
-                  SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
-                  SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
-                  SgxRT: parsedData['Sheet1'][i]["RT"], 
-                  SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
-                  SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
-                }
-                
-                console.log(data)
-                axios({
-                  method: 'post',
-                  // url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/testasync',
-                  url: 'http://localhost:3000/setSgxRow',
-                  headers: {}, 
-                  data: data
-                }).then(function (response) {
-                  var startTime = performance.now();
-                  console.log(response.data);
-                  var endTime = performance.now();
-                  console.log(`Call one row of transaction took ${endTime - startTime} milliseconds`);
-                  });
-              }
-              // if its a primo dataset
-              else {
-                  parsedData['Sheet1'][i]["StructIndex"] = 1
-                  parsedData['Sheet1'][i]["SETTLEMENT_PRICE"] = parseInt(parsedData['Sheet1'][i]["SETTLEMENT_PRICE"])
-                  parsedData['Sheet1'][i]["QUANTITY"] = parseInt(parsedData['Sheet1'][i]["QUANTITY"])
-                  // console.log(parsedData['Sheet1'][i])
-                  parsedData['Sheet1'][i]["EXECUTION_DATE"]= parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(4) + parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(2,4) + parsedData['Sheet1'][i]["EXECUTION_DATE"].slice(0,2)
-                  // method 1 of sending axios calls
-                  data = {
-                    PrimoStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
-                    PrimoQuantity: parsedData['Sheet1'][i]["QUANTITY"], 
-                    PrimoExecutionDate: parsedData['Sheet1'][i]["EXECUTION_DATE"], 
-                    PrimoREUT: parsedData['Sheet1'][i]["REUT"], 
-                    PrimoBuySell: parsedData['Sheet1'][i]["BUY_SELL"], 
-                    PrimoAccount: parsedData['Sheet1'][i]["ACCOUNT"], 
-                    PrimoSettlementPrice: parsedData['Sheet1'][i]["SETTLEMENT_PRICE"],
-                    PrimoPrinciple: parsedData['Sheet1'][i]["PRINCIPAL"], 
-                    PrimoTradeId: parsedData['Sheet1'][i]["TRADE_ID"] 
-                      }
-                  console.log(`Itrations ${i}`,data)
-
-                  axios({
-                  method: 'post',
-                  url: 'http://localhost:3000/setPrimoRow',
-                  headers: {}, 
-                  data: data
-                  }).then(function (response) {
-                    console.log(response.data)});
-                  // method 2 of sending axios calls
-                  
-                  // setTimeout(function callAPI(){
-                  //   console.log(`Itrations ${i}`,data);
-                  //   axios({
-                  //     method: 'get',
-                  //     url: 'https://api.coindesk.com/v1/bpi/currentprice.json',
-                  //     headers: {}, 
-                  //     }).then(function (response) {
-                  //       console.log(response.data)});
-                  // },(i+1)*10000);
-                  // setTimeout(function(){ console.log("Hello"); }, (i+1)*10000);
-                  
-              }
-            }
-            });
+              //setTimeout(function callAPI(i=index,self=exchange){
+              this.delay(parsedData,i)
+              
+            //},(index)*5000);
+            };
           }  
-      };
+            );}}
 
+      delay(parsedData,i) {
+        setTimeout(() => {
+          if (this.state.dropDownValue === "SGX") {
+            console.log(parsedData['Sheet1'][i])
+            console.log(i)
+            parsedData['Sheet1'][i]["StructIndex"] = 0
+            parsedData['Sheet1'][i]["PRICE"] = parseInt(parsedData['Sheet1'][i]["PRICE"])
+            parsedData['Sheet1'][i]["QTY"] = parseInt(parsedData['Sheet1'][i]["QTY"])
+  
+            var data = {
+              SgxStructIndex: parsedData['Sheet1'][i]["StructIndex"], 
+              SgxQuantity: parsedData['Sheet1'][i]["QTY"], 
+              SgxExecutionDate: parsedData['Sheet1'][i]["TRADE_DATE"], 
+              SgxISIN: parsedData['Sheet1'][i]["ISIN"], 
+              SgxRT: parsedData['Sheet1'][i]["RT"], 
+              SgxCLINO: parsedData['Sheet1'][i]["CLINO"], 
+              SgxSettlementPrice: parsedData['Sheet1'][i]["PRICE"]
+            }
+            
+            console.log(data)
+            axios({
+              method: 'post',
+              // url: 'http://ec2-52-220-82-196.ap-southeast-1.compute.amazonaws.com/testasync',
+              url: 'http://localhost:3000/setSgxRow',
+              headers: {}, 
+              data: data
+            }).then(function (response) {
+              var startTime = performance.now();
+              console.log(response.data);
+              var endTime = performance.now();
+              console.log(`Call one row of transaction took ${endTime - startTime} milliseconds`);
+              });
+          }
+          // if its a primo dataset
+          else {
+              // console.log(i);
+              // console.log(parsedData)
+              var transaction = parsedData.Sheet1.[i];
+              console.log(transaction);
+              // console.log(parsedData.Sheet1.[0]);
+              console.log(i);
+  
+              transaction.StructIndex = i;
+              transaction.SETTLEMENT_PRICE = parseInt(transaction.SETTLEMENT_PRICE);
+              transaction.QUANTITY = transaction.QUANTITY
+              // console.log(parsedData['Sheet1'][i])
+              transaction.EXECUTION_DATE = transaction.EXECUTION_DATE.slice(4) + transaction.EXECUTION_DATE.slice(2,4) + transaction.EXECUTION_DATE.slice(0,2)
+              // method 1 of sending axios calls
+              var data = {
+                PrimoStructIndex: transaction.StructIndex, 
+                PrimoQuantity: transaction.QUANTITY, 
+                PrimoExecutionDate: transaction.EXECUTION_DATE, 
+                PrimoREUT: transaction.REUT, 
+                PrimoBuySell: transaction.BUY_SELL, 
+                PrimoAccount: transaction.ACCOUNT, 
+                PrimoSettlementPrice: transaction.SETTLEMENT_PRICE,
+                PrimoPrinciple: transaction.PRINCIPAL, 
+                PrimoTradeId: transaction.TRADE_ID 
+                  }
+              console.log(`Itrations ${i}`,data)
+  
+              axios({
+              method: 'post',
+              url: 'http://localhost:3000/setPrimoRow',
+              headers: {}, 
+              data: data
+              }).then(function (response) {
+                console.log(response.data)});
+  
+              // method 2 of sending axios calls
+              
+              // setTimeout(function callAPI(){
+              //   console.log(`Itrations ${i}`,data);
+                // axios({
+                //   method: 'get',
+                //   url: 'https://api.coindesk.com/v1/bpi/currentprice.json',
+                //   headers: {}, 
+                //   }).then(function (response) {
+                //     console.log(response.data)});
+              // },(i+1)*10000);
+              // setTimeout(function(){ console.log("Hello"); }, (i+1)*10000);
+              
+          }
+        }, i*5000);
+        
+      };
+      
+          
       onReconcile = () => {
         axios.get('http://localhost:3000/reconcile').then(
           function(response){
